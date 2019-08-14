@@ -1,5 +1,6 @@
 ---
 # defaults file for k8s-helm
+helm_enabled: true
 helm_version: 2.14.2
 helm_upgrade: true
 helm_history_max: 20

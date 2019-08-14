@@ -24,7 +24,6 @@
         owner: root
         group: root
         mode: '0770'
-      become: true
     
     - name: Copy tiller binary to /usr/sbin
       copy:
@@ -33,7 +32,6 @@
         owner: root
         group: root
         mode: '0770'
-      become: true
   always:
   
     - name: Clean temporary files
