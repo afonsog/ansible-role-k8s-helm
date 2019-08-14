@@ -1,0 +1,11 @@
+---
+# tasks file for k8s-helm
+
+- include_tasks: linux-x86_64.yml
+  when: 
+    - ansible_facts['architecture'] == 'x86_64'
+    - ansible_facts['os_family'] == 'RedHat' or ansible_facts['os_family'] == 'Debian'
+    
+- include_tasks: linux-install-tiller.yml
+  when: 
+    - ansible_facts['architecture'] == 'x86_64'

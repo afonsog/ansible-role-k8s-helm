@@ -1,0 +1,38 @@
+---
+
+- name: create service account
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: tiller
+        namespace: kube-system
+
+- name: create cluster role binding account
+  k8s:
+    state: present
+    definition:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: tiller
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+      - kind: ServiceAccount
+        name: tiller
+        namespace: kube-system
+
+- name: install tiller (but not! upgrade)
+  command: helm init --service-account tiller --history-max {{ helm_history_max }}
+  when:
+    - helm_upgrade == false
+
+- name: install and upgrade tiller
+  command: helm init --service-account tiller --history-max {{ helm_history_max }} --upgrade
+  when:
+    - helm_upgrade == true

@@ -1,0 +1,25 @@
+---
+- name: Check if helm is installed
+  block:
+  
+    - name: try invoke binary
+      shell: helm
+      become: true
+
+    - name: check helm client version
+      shell: helm version -c | egrep -o "[0-9]+\.[0-9]+\.[0-9]+"
+      become: true
+      register: helm_client_version
+
+    - name: fail if helm not exists  
+      fail:
+          msg: 'helm binary not found'
+      when: helm_client_version.rc != 0
+
+    - include_tasks: linux-install-helm.yml
+      when: helm_client_version.stdout is version(helm_version,'<')
+
+  rescue:
+
+    - include_tasks: linux-install-helm.yml
+      
