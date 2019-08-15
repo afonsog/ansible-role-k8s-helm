@@ -20,7 +20,7 @@
     - name: Copy helm binary to /usr/sbin
       copy:
         src: /tmp/linux-amd64/helm
-        dest: /usr/sbin/helm
+        dest: /usr/local/bin/helm
         owner: root
         group: root
         mode: '0770'
@@ -28,7 +28,7 @@
     - name: Copy tiller binary to /usr/sbin
       copy:
         src: /tmp/linux-amd64/tiller
-        dest: /usr/sbin/tiller
+        dest: /usr/local/bin/tiller
         owner: root
         group: root
         mode: '0770'

@@ -28,11 +28,11 @@
         namespace: kube-system
 
 - name: install tiller (but not! upgrade)
-  command: helm init --service-account tiller --history-max {{ helm_history_max }}
+  command: /usr/local/bin/helm init --service-account tiller --history-max {{ helm_history_max }}
   when:
     - helm_upgrade == false
 
 - name: install and upgrade tiller
-  command: helm init --service-account tiller --history-max {{ helm_history_max }} --upgrade
+  command: /usr/local/bin/helm init --service-account tiller --history-max {{ helm_history_max }} --upgrade
   when:
     - helm_upgrade == true
