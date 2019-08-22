@@ -15,7 +15,7 @@
       when: helm_client_version.rc != 0
 
     - include_tasks: linux-install-helm.yml
-      when: helm_client_version.stdout is version(helm_version,'<')
+      when: helm_client_version.stdout is version(helm_version[1:],'<')
 
   rescue:
 

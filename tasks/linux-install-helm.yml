@@ -4,7 +4,7 @@
   block:
     - name: Download helm  
       get_url:
-        url: "https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz"
+        url: "https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz"
         dest: /tmp/helm.tar.gz
         mode: '0770'
       run_once: true
