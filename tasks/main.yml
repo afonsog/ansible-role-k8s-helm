@@ -1,11 +1,21 @@
 ---
 # tasks file for k8s-helm
+  
+- name: try invoke binary
+  shell: helm
+  ignore_errors: true
 
-- include_tasks: linux-x86_64.yml
-  when: 
-    - ansible_facts['architecture'] == 'x86_64'
-    - ansible_facts['os_family'] == 'RedHat' or ansible_facts['os_family'] == 'Debian'
-    
+- name: check helm client version
+  shell: helm version -c | egrep -o "[0-9]+\.[0-9]+\.[0-9]+"
+  ignore_errors: true
+  register: helm_client_version
+
+- name: fail if helm not exists  
+  fail:
+      msg: 'helm binary not found'
+  when: helm_client_version.rc != 0
+
+- include_tasks: linux-install-helm.yml
+  when: helm_client_version.stdout is version(k8s_helm_version[1:],'<') or helm_client_version.rc != 0
+
 - include_tasks: linux-install-tiller.yml
-  when: 
-    - ansible_facts['architecture'] == 'x86_64'
