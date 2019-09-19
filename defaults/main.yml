@@ -1,6 +1,6 @@
 ---
 # defaults file for k8s-helm
-k8s_helm_enabled: true
-k8s_helm_version: v2.14.2
-k8s_helm_upgrade: true
-k8s_helm_history_max: 20
+m7s_helm_enabled: false
+m7s_helm_version: 2.14.2
+m7s_helm_state: 'installed'
+m7s_helm_history_max: 20

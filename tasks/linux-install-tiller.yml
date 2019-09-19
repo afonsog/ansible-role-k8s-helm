@@ -2,7 +2,7 @@
 
 - name: create service account
   k8s:
-    state: present
+    state: "{{ 'present' if m7s_helm_state != 'purged' else 'absent' }}"
     definition:
       apiVersion: v1
       kind: ServiceAccount
@@ -12,7 +12,7 @@
 
 - name: create cluster role binding account
   k8s:
-    state: present
+    state: "{{ 'present' if m7s_helm_state != 'purged' else 'absent' }}"
     definition:
       apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRoleBinding
@@ -27,12 +27,12 @@
         name: tiller
         namespace: kube-system
 
-- name: install tiller (but not! upgrade)
-  command: /usr/local/bin/helm init --service-account tiller --history-max {{ k8s_helm_history_max }}
+- name: install tiller
+  command: /usr/local/bin/helm init --service-account tiller --history-max {{ m7s_helm_history_max }}
   when:
-    - k8s_helm_upgrade == false
+    - m7s_helm_state == 'installed'
 
 - name: install and upgrade tiller
-  command: /usr/local/bin/helm init --service-account tiller --history-max {{ k8s_helm_history_max }} --upgrade
+  command: /usr/local/bin/helm init --service-account tiller --history-max {{ m7s_helm_history_max }} --upgrade
   when:
-    - k8s_helm_upgrade == true
+    - m7s_helm_state == 'upgraded'

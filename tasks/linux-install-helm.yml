@@ -1,10 +1,10 @@
 ---
 
-- name: Download helm and install
+- name: download helm and install
   block:
-    - name: Download helm  
+    - name: download helm  
       get_url:
-        url: "https://get.helm.sh/helm-v{{ k8s_helm_version }}-linux-amd64.tar.gz"
+        url: "https://get.helm.sh/helm-v{{ m7s_helm_version }}-linux-amd64.tar.gz"
         dest: /tmp/helm.tar.gz
         mode: '0770'
       run_once: true
@@ -17,7 +17,7 @@
       run_once: true
       delegate_to: localhost
 
-    - name: Copy helm binary to /usr/sbin
+    - name: copy helm binary to /usr/sbin
       copy:
         src: /tmp/linux-amd64/helm
         dest: /usr/local/bin/helm
@@ -25,16 +25,15 @@
         group: root
         mode: '0770'
     
-    - name: Copy tiller binary to /usr/sbin
+    - name: copy tiller binary to /usr/sbin
       copy:
         src: /tmp/linux-amd64/tiller
         dest: /usr/local/bin/tiller
         owner: root
         group: root
         mode: '0770'
-  always:
-  
-    - name: Clean temporary files
+  always:  
+    - name: clean temporary files
       file:
         state: absent
         path: /tmp/linux-amd64
@@ -42,7 +41,7 @@
       delegate_to: localhost
       ignore_errors: yes
 
-    - name: Clean helm.tar.gz
+    - name: clean helm.tar.gz
       file:
         state: absent
         path: /tmp/helm.tar.gz
