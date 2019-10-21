@@ -11,7 +11,9 @@
 - name: set if helm is installed
   set_fact:
     helm_installed: helm_output.rc == 0
-  when: m7s_helm_enabled
+  when:
+  - helm_output.rc is defined 
+  - m7s_helm_enabled
 
 - name: check helm client version
   shell: helm version -c | egrep -o "[0-9]+\.[0-9]+\.[0-9]+"
@@ -23,7 +25,8 @@
 - name: set actual version if helm is installed
   set_fact:
     helm_version: helm_output.stdout
-  when: 
+  when:
+  - helm_output.rc is defined 
   - m7s_helm_enabled
   - helm_installed and helm_output.rc == 0
 
