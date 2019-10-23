@@ -3,6 +3,7 @@
   
 - name: try invoke helm
   command: helm
+  ignore_errors: yes
   register: helm_output
   when: 
   - m7s_helm_enabled
