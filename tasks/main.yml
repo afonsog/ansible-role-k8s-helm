@@ -27,11 +27,9 @@
 - include_tasks: linux-install-helm.yml
   when: 
   - m7s_helm_state != 'purged'
-  - helm_version is defined
-  - helm_version is version(m7s_helm_version[1:],'<') or helm_installed == false
+  - (helm_version is defined and helm_version is version(m7s_helm_version[1:],'<')) or helm_version is undefined
 
 - include_tasks: linux-install-tiller.yml
   when:
   - m7s_helm_state != 'purged'
-  - helm_version is defined
-  - helm_version is version(m7s_helm_version[1:],'<') or helm_installed == false
+  - (helm_version is defined and helm_version is version(m7s_helm_version[1:],'<')) or helm_version is undefined
